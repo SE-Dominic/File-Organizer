@@ -23,20 +23,29 @@ def organize_folder(folder_name):
 
 def rename_file(folder_name):
     file_to_be_found = str(input("Enter file name to be found: "))
+    was_found = False
     for file in os.listdir(folder_name):
+        if os.path.isdir(file): #skip over folders inside of folder path (we only want files)
+            continue
         if file == file_to_be_found:
-            newName = str(input("File was found! Rename to: ")) #ex. onee.txt
-            fileRename = f"{folder_name}/{newName}"
-            os.rename(file, fileRename)
+            newName = str(input("File found! Enter new file name: "))
+            old_path = os.path.join(folder_name, file) #source
+            new_path = os.path.join(folder_name, newName) #destination
+            os.rename(old_path, new_path)
+            was_found = True
+            break
         else:
             continue
+    if was_found == True:
+        print("Name as successfully changed!")
+    else:
+        print("File not found in folder.")
     
 
-
 if __name__ == "__main__":
-    downloads_file = "/workspaces/File-Organizer/dummy_folder"
-    if not os.path.isdir(downloads_file):
+    chosen_folder = "/workspaces/File-Organizer/dummy_folder"
+    if not os.path.isdir(chosen_folder):
         print("Invalid folder path. Try again.")
     else:
-        rename_file(downloads_file)
-        #organize_folder(downloads_file)
+        #organize_folder(chosen_folder)
+        rename_file(chosen_folder)
