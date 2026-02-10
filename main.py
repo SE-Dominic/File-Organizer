@@ -31,8 +31,9 @@ def rename_file(folder_name):
     file_to_be_found = str(input("Enter file name to be found: "))
     was_found = False
     for file in os.listdir(folder_name):
-        if os.path.isdir(file): #skip over folders inside of folder path (we only want files)
-            continue
+        #if os.path.isdir(file): #skip over folders inside of folder path (we only want files)
+         #   print(f"{file} is a directory. ")
+          #  continue
         if file == file_to_be_found:
             newName = str(input("File found! Enter new file name: "))
             
@@ -44,15 +45,43 @@ def rename_file(folder_name):
         else:
             continue
     if was_found == True:
-        print("Name as successfully changed!")
+        print("Name was successfully changed!")
     else:
         print("File not found in folder.")
     
 
+class Dashboard:
+    def __init__(self):
+        self.folder_path: str
+
+    def options(self):
+        print("1. Organize Folder")
+        print("2. Rename File")
+        print("3. EXIT PROGRAM")
+
+    def dashboard_loop(self):
+        userinp = str(input("Enter folder path: "))
+        if not os.path.isdir(userinp):
+            print("Invalid folder path.")
+            return
+        self.folder_path = userinp
+        self.options()
+        choice = int(input("Enter choice: "))
+        while choice != 3:
+            if choice == 1:
+                organize_folder(self.folder_path)
+                choice = int(input(f"\n{self.options()}\n Enter choice: "))
+            elif choice == 2:
+                rename_file(self.folder_path)
+                choice = int(input(f"\n{self.options()}\n Enter choice: "))
+            else:
+                print("Invalid choice. Try again.")
+                choice = int(input(f"\n{self.options()}\n Enter choice: "))
+        print("Program is terminated.")
+
 if __name__ == "__main__":
-    chosen_folder = "/workspaces/File-Organizer/dummy_folder"
-    if not os.path.isdir(chosen_folder):
-        print("Invalid folder path. Try again.")
-    else:
-        #organize_folder(chosen_folder)
-        rename_file(chosen_folder)
+    '''
+    DUMMY FOLDER PATH -> /workspaces/File-Organizer/dummy_folder
+    '''
+    dashboard:Dashboard = Dashboard() 
+    dashboard.dashboard_loop()
